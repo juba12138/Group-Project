@@ -7,6 +7,7 @@ from NPCs import npc
 from chatbot import chatnpc
 from enemy import enemy
 from door import door
+from appliance import appliance
 
 g_window = pygame.display.set_mode((1000, 800))
 
@@ -58,7 +59,7 @@ class Tile(
 
 
 class SceneLike(Listener):
-    def __init__(self, player, npc:npc , chatbot:chatnpc, enemylist:list[enemy], doorlist:list[door]):
+    def __init__(self, player, npc:npc , chatbot:chatnpc, enemylist:list[enemy], doorlist:list[door], appliancelist:list[appliance]):
 
         super().__init__()
         self.walls = []
@@ -73,6 +74,7 @@ class SceneLike(Listener):
         self.map_range = (4000, 800)
         self.carema = (0, 0) 
         self.doorlist = doorlist
+        self.appliancelist = appliancelist
         self.update_camera()
         self.iflisten = False
         self.enemychoice = []
@@ -676,9 +678,12 @@ class SceneLike(Listener):
         self.camera = tuple_min(right_down, self.camera)
         self.camera = tuple_max(left_top, self.camera)
         self.distance1 = (self.player.rect.x - self.npc.rect.x-110) ** 2 + (self.player.rect.y - self.npc.rect.y-120) ** 2
-        self.distance2 = (self.player.rect.x - self.chatbot.rect.x-110) ** 2 + (self.player.rect.y - self.chatbot.rect.y-120) ** 2
+        self.npc.distance = self.distance1
+        self.distance2 = (self.player.rect.x - self.chatbot.rect.x-110) ** 2 + (self.player.rect.y - self.chatbot.rect.y - 120) ** 2
         for door in self.doorlist:
             door.distance = (self.player.rect.x - door.rect.x) ** 2 + (self.player.rect.y - door.rect.y-30) ** 2
+        for appliance in self.appliancelist:
+            appliance.distance = (self.player.rect.x - appliance.rect.x) ** 2 + (self.player.rect.y - appliance.rect.y - 30) ** 2
     def listen(self, event: Event): 
         super().listen(event)
         if self.iflisten:
@@ -700,6 +705,20 @@ class SceneLike(Listener):
 
             if event.code == STEP: 
                 self.update_camera()
+                if self.player.rect.x == 1430:
+                    for i in range(self.map_range[1]//40):
+                        if i >= 16:
+                            self.walls.append(
+                            Wall(
+                            pygame.Rect(
+                                1400,
+                                i*40,
+                                40,
+                                40,
+                            )
+                         )
+                        )
+                    
                 
             if event.code == LEVEL1:
                 self.enemychoice = [self.enemylist[3]]
@@ -745,7 +764,10 @@ class SceneLike(Listener):
                 for door in self.doorlist:
                     if door.iflisten:
                         door.draw(self.camera)
-                        
+                #appliancedraw
+                for appliance in self.appliancelist:
+                    if appliance.iflisten:
+                        appliance.draw(self.camera)
             if event.code == END:
                 self.iflisten = False
                 self.player.iflisten = False
@@ -755,3 +777,5 @@ class SceneLike(Listener):
                     yourenemy.iflisten = False
                 for door in self.doorlist:
                     door.iflisten = False
+                for appliance in self.appliancelist:
+                    appliance.iflisten = False

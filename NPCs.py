@@ -37,6 +37,7 @@ class npc(EntityLike):
         self.buttonshow = False
         self.show = False
         self.iflisten = False
+        self.distance = 1145141919810
         
         
     def listen(self, event: Event):
@@ -59,7 +60,7 @@ class npc(EntityLike):
             
     def intodiag(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_f]:
+        if keys[pygame.K_f] and self.distance <= 2000:
             self.show = not self.show
         if keys[pygame.K_SPACE] and self.show:
             if self.i < len(self.diag_list) - 3:

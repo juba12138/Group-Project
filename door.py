@@ -32,8 +32,25 @@ class door(EntityLike):
     def intoending(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_f]:
-            self.post(Event(END))
-            pygame.mixer.music.pause()
-            self.ending.iflisten = True
+            if self.rect.x == 3400:
+                self.player.rect.x = 3040
+                self.player.rect.y = 160
+            elif self.rect.x == 3860:
+                self.post(Event(END))
+                pygame.mixer.music.pause()
+                self.ending.iflisten = True
+            elif self.rect.x == 2780:
+                self.player.rect.x = 2645
+                self.player.rect.y = 685
+            elif self.rect.x == 3160:
+                self.player.rect.x = 2480
+                self.player.rect.y = 460
+            elif self.rect.x == 2210:
+                self.player.rect.x = 3410
+                self.player.rect.y = 445
+            elif self.rect.x == 1895:
+                self.player.rect.x = 1535
+                self.player.rect.y = 40
+                
             
     

@@ -8,6 +8,7 @@ from enemy import enemy
 from menu import menuscene
 from door import door
 from ending import endscene
+from appliance import appliance
 
 pygame.init() 
 g_window = pygame.display.set_mode((1000, 800))
@@ -97,10 +98,50 @@ if __name__ == "__main__":
         ending=End2,
         player=mob
     )
-    DoorList = [Door1, Door2]
-    scene = SceneLike(mob, NPC, chatNPC, ENEMYLIST, DoorList) 
-    Menu = menuscene(mob, NPC, chatNPC, scene, DoorList)
-    listeners = [Menu, mob, NPC, chatNPC, Enemy1, Enemy2, Enemy3, Enemy4, scene, Door1, End1, Door2, End2]
+    Door3 = door(
+        image=pygame.transform.scale(
+            pygame.image.load(".\sets\portal.png"), (100, 100)
+        ),
+        rect=pygame.Rect(2780, 680, 60, 60),
+        ending=End2,
+        player=mob
+    )
+    Door4 = door(
+        image=pygame.transform.scale(
+            pygame.image.load(".\sets\portal.png"), (100, 100)
+        ),
+        rect=pygame.Rect(3160, 180, 60, 60),
+        ending=End2,
+        player=mob
+    )
+    Door5 = door(
+        image=pygame.transform.scale(
+            pygame.image.load(".\sets\portal.png"), (100, 100)
+        ),
+        rect=pygame.Rect(2210, 40, 60, 60),
+        ending=End2,
+        player=mob
+    )
+    Door6 = door(
+        image=pygame.transform.scale(
+            pygame.image.load(".\sets\portal.png"), (100, 100)
+        ),
+        rect=pygame.Rect(1895, 40, 60, 60),
+        ending=End2,
+        player=mob
+    )
+    DoorList = [Door1, Door2, Door3, Door4, Door5, Door6]
+    SPEEDPLUS = appliance(
+        image=pygame.transform.scale(
+            pygame.image.load(".\sets\speedplus.png"), (60, 60)
+        ),
+        rect=pygame.Rect(2660, 700, 60, 60),
+        player=mob
+    )
+    APPLY = [SPEEDPLUS]
+    scene = SceneLike(mob, NPC, chatNPC, ENEMYLIST, DoorList, APPLY) 
+    Menu = menuscene(mob, NPC, chatNPC, scene, DoorList, APPLY)
+    listeners = [Menu, mob, NPC, chatNPC, Enemy1, Enemy2, Enemy3, Enemy4, scene, Door1, End1, Door2, End2, Door3, Door4, Door5, Door6, SPEEDPLUS]
     pygame.mixer.music.load('.\sets\Genshin Impact Main Theme.mp3')
     pygame.mixer.music.play(-1)
     while True:
