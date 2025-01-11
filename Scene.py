@@ -680,6 +680,7 @@ class SceneLike(Listener):
         self.distance1 = (self.player.rect.x - self.npc.rect.x-110) ** 2 + (self.player.rect.y - self.npc.rect.y-120) ** 2
         self.npc.distance = self.distance1
         self.distance2 = (self.player.rect.x - self.chatbot.rect.x-110) ** 2 + (self.player.rect.y - self.chatbot.rect.y - 120) ** 2
+        self.chatbot.distance = self.distance2
         for door in self.doorlist:
             door.distance = (self.player.rect.x - door.rect.x) ** 2 + (self.player.rect.y - door.rect.y-30) ** 2
         for appliance in self.appliancelist:

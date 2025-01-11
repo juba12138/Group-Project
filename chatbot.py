@@ -28,7 +28,7 @@ class chatnpc(EntityLike):
         self.show = False
         self.boxcolour = black
         self.iflisten = False
-        
+        self.distance = 1145141919810
     def show_chat(self):
         if self.show:
             pygame.draw.rect(g_window, self.boxcolour, self.chat_box)
@@ -180,7 +180,7 @@ class chatnpc(EntityLike):
             
     def listen(self, event: Event):
         if self.iflisten:
-            if event.code == pygame.KEYDOWN:
+            if event.code == pygame.KEYDOWN and self.distance <=10000:
                 self.intochat()
             if event.code == pygame.MOUSEBUTTONDOWN and self.show:
                 self.start_chat()
