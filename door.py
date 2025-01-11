@@ -1,4 +1,5 @@
 import pygame
+import random
 from game_events import *
 from Player import Event
 from Player import EntityLike
@@ -22,6 +23,7 @@ class door(EntityLike):
         self.iflisten = False
         self.distance = (self.player.rect.x - self.rect.x) ** 2 + (self.player.rect.y - self.rect.y-30) ** 2
         self.dooropen = False
+        self.list = [(3040, 160), (2480, 460), (2645, 685), (1535, 40), (2090, 700), (2660, 205), (2945, 700)]
         
     def listen(self, event: Event):
         if self.iflisten:
@@ -32,25 +34,12 @@ class door(EntityLike):
     def intoending(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_f]:
-            if self.rect.x == 3400:
-                self.player.rect.x = 3040
-                self.player.rect.y = 160
+            if self.rect.x != 3860:
+                self.player.rect.x, self.player.rect.y = random.choice(self.list)
             elif self.rect.x == 3860:
                 self.post(Event(END))
                 pygame.mixer.music.pause()
                 self.ending.iflisten = True
-            elif self.rect.x == 2780:
-                self.player.rect.x = 2645
-                self.player.rect.y = 685
-            elif self.rect.x == 3160:
-                self.player.rect.x = 2480
-                self.player.rect.y = 460
-            elif self.rect.x == 2210:
-                self.player.rect.x = 3410
-                self.player.rect.y = 445
-            elif self.rect.x == 1895:
-                self.player.rect.x = 1535
-                self.player.rect.y = 40
                 
             
     

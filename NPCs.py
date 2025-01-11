@@ -38,6 +38,7 @@ class npc(EntityLike):
         self.show = False
         self.iflisten = False
         self.distance = 1145141919810
+        self.start_time = 0
         
         
     def listen(self, event: Event):
@@ -74,12 +75,14 @@ class npc(EntityLike):
                 self.buttonshow = not self.buttonshow
             elif self.i == len(self.diag_list) - 1:
                 self.show = not self.show
-                self.post(Event(RUN))
                 self.i = 0
                 self.diag_Surface = self.font.render(self.diag_list[0], True, (255, 255, 255))
                 self.iflisten = False
                 pygame.mixer.music.load('.\sets\ooss.mp3')
                 pygame.mixer.music.play(-1)
+                clock = pygame.time.Clock()
+                self.start_time = pygame.time.get_ticks()/1000
+                self.post(Event(RUN))
                 
     def levelchoice(self):
         mouse_pos = pygame.mouse.get_pos()

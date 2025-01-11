@@ -735,6 +735,9 @@ class SceneLike(Listener):
                 self.enemychoice = self.enemylist
             
             if event.code == RUN:
+                for door in self.doorlist:
+                    door.ending.start_time = self.npc.start_time
+                    
                 for yourenemy in self.enemychoice:
                     yourenemy.iflisten = True
             
