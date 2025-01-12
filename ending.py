@@ -19,6 +19,7 @@ class endscene(Listener):
         self.iflisten = False
         self.start_time = 0
         self.time = 0
+        self.coin = 0
         self.showtime = False
         
     def listen(self, event:Event):
@@ -27,7 +28,8 @@ class endscene(Listener):
                 g_window.fill((0, 0, 0))
                 g_window.blit(self.image, (-110, 10))
                 if self.showtime:
-                    g_window.blit(pygame.font.Font(None, 60).render(str(self.time)+' S ', True, (255, 255, 255)), (375, 610))
+                    g_window.blit(pygame.font.Font(None, 60).render('time: ' + str(self.time) + ' S ', True, (255, 255, 255)), (375, 610))
+                    g_window.blit(pygame.font.Font(None, 60).render('coins: ' + str(self.coin), True, (255, 255, 255)), (375, 670))
             if event.code == pygame.KEYDOWN:
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_SPACE]:

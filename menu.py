@@ -8,6 +8,7 @@ from enemy import enemy
 from Scene import SceneLike
 from door import door
 from appliance import appliance
+from coin import coin
 
 g_window = pygame.display.set_mode((1000, 800))
 
@@ -20,7 +21,7 @@ RUN = 6
 END = 7
 
 class menuscene(Listener):
-    def __init__(self, player, npc:npc , chatbot:chatnpc, scene:SceneLike, doorlist:list[door], appliancelist:list[appliance]):
+    def __init__(self, player, npc:npc , chatbot:chatnpc, scene:SceneLike, doorlist:list[door], appliancelist:list[appliance], coinlist:list[coin]):
         super().__init__()
         self.menu = pygame.transform.scale(pygame.image.load('.\sets\menuscene.png'), (1200, 800))
         self.player = player
@@ -30,6 +31,7 @@ class menuscene(Listener):
         self.iflisten = True
         self.doorlist = doorlist
         self.appliancelist = appliancelist
+        self.coinlist = coinlist
         
     def listen(self, event:Event):
         if self.iflisten: 
@@ -47,6 +49,8 @@ class menuscene(Listener):
                         door.iflisten = True
                     for appliance in self.appliancelist:
                         appliance.iflisten = True
+                    for coin in self.coinlist:
+                        coin.iflisten = True
                     pygame.mixer.music.load('.\sets\city.mp3')
                     pygame.mixer.music.play(-1)
                 if keys[pygame.K_ESCAPE]:

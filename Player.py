@@ -47,6 +47,7 @@ class Player(EntityLike):
         self.hp = 100
         self.speed = 10
         self.iflisten = False
+        self.coins = 0
 
     def listen(self, event: Event):
         if self.iflisten:

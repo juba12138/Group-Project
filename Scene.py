@@ -8,6 +8,7 @@ from chatbot import chatnpc
 from enemy import enemy
 from door import door
 from appliance import appliance
+from coin import coin
 
 g_window = pygame.display.set_mode((1000, 800))
 
@@ -59,7 +60,7 @@ class Tile(
 
 
 class SceneLike(Listener):
-    def __init__(self, player, npc:npc , chatbot:chatnpc, enemylist:list[enemy], doorlist:list[door], appliancelist:list[appliance]):
+    def __init__(self, player, npc:npc , chatbot:chatnpc, enemylist:list[enemy], doorlist:list[door], appliancelist:list[appliance], coinlist:list[coin]):
 
         super().__init__()
         self.walls = []
@@ -75,6 +76,7 @@ class SceneLike(Listener):
         self.carema = (0, 0) 
         self.doorlist = doorlist
         self.appliancelist = appliancelist
+        self.coinlist = coinlist
         self.update_camera()
         self.iflisten = False
         self.enemychoice = []
@@ -685,6 +687,8 @@ class SceneLike(Listener):
             door.distance = (self.player.rect.x - door.rect.x) ** 2 + (self.player.rect.y - door.rect.y-30) ** 2
         for appliance in self.appliancelist:
             appliance.distance = (self.player.rect.x - appliance.rect.x) ** 2 + (self.player.rect.y - appliance.rect.y - 30) ** 2
+        for coin in self.coinlist:
+            coin.distance = (self.player.rect.x - coin.rect.x + 10) ** 2 + (self.player.rect.y - coin.rect.y ) ** 2
     def listen(self, event: Event): 
         super().listen(event)
         if self.iflisten:
@@ -719,6 +723,8 @@ class SceneLike(Listener):
                             )
                          )
                         )
+                for door in self.doorlist:
+                    door.ending.coin = self.player.coins 
                     
                 
             if event.code == LEVEL1:
@@ -741,7 +747,7 @@ class SceneLike(Listener):
                 for yourenemy in self.enemychoice:
                     yourenemy.iflisten = True
             
-            if event.code == DRAW:  
+            if event.code == DRAW:
                 for tile in self.tiles:  
                     tile.draw(self.camera)
                 for wall in self.walls:  
@@ -749,6 +755,10 @@ class SceneLike(Listener):
                 #playerdraw
                 if self.player.iflisten:
                     self.player.draw(self.camera)
+                #coindraw
+                for coin in self.coinlist:
+                    if coin.iflisten:
+                        coin.draw(self.camera)
                 #npcdraw
                 if self.npc.iflisten:
                     self.npc.draw(self.camera)
@@ -772,6 +782,8 @@ class SceneLike(Listener):
                 for appliance in self.appliancelist:
                     if appliance.iflisten:
                         appliance.draw(self.camera)
+                g_window.blit(pygame.transform.scale(pygame.image.load('.\sets\coin.png'), (80, 80)), (5, 5))
+                g_window.blit(pygame.font.Font(None, 80).render(': '+str(self.player.coins), True, (255, 255, 0)), (80, 20))
             if event.code == END:
                 self.iflisten = False
                 self.player.iflisten = False
